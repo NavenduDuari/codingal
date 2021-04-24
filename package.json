@@ -1,0 +1,12 @@
+{
+  "name": "Codingal",
+  "version": "1.0.0",
+  "description": "Codingal is on a mission to inspire school kids to fall in love with coding.",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "repository": "git@github.com:NavenduDuari/codingal.git",
+  "author": "Navendu Duari <navendu.mcs19.du@gmail.com>",
+  "license": "MIT"
+}
