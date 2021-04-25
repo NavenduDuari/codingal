@@ -1,6 +1,10 @@
 /**
  * @fileinfo
- * The main task of the file is to handle routing. It also perform some initial XHR requests
+ *
+ * The only container for this project.
+ *
+ * Right now this just mount different components with different attributes
+ * based on the route.
  */
 import React from 'react';
 import { connect } from 'react-redux';

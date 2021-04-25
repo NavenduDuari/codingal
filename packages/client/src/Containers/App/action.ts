@@ -1,7 +1,9 @@
 /**
  * @fileinfo
- * The file contains all the actions that are dispatched by App/index.jsx
+ *
+ * Actions are dispatched from rendering component and consumed by either saga / reducer or both
  */
+
 import { ActionTypes } from './types';
 import { Action, PostI, IsPostLoading } from '../../types';
 

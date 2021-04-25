@@ -1,3 +1,11 @@
+/**
+ * @fileinfo
+ *
+ * This is the entry point of the react code.
+ *
+ * TODO[@Nav] write more about <Provide store={store}>
+ */
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
