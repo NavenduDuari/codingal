@@ -1,0 +1,43 @@
+@media (min-width: 1024px) {
+  .navbar-menu-items {
+  }
+}
+
+.navbar-menu-items {
+}
+
+.end-class-modal-mask {
+  background-color: #eeee;
+  .modal {
+    background-color: white;
+  }
+}
+
+.reason {
+  display: flex;
+  height: 25px;
+  align-items: center;
+  width: fit-content;
+  cursor: pointer;
+}
+
+.modal-close-btn {
+  color: rgba(0,0,0,0.5);
+  cursor: pointer;
+}
+
+.sub-reason {
+  display: flex;
+  height: 25px;
+  align-items: center;
+  width: fit-content;
+  cursor: pointer;
+}
+
+.other-reason {
+  border: 1px solid #eee;
+  padding: 5px;
+  &:focus {
+    outline: none;
+  }
+}
