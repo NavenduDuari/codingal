@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { PostI } from '../../types';
+import { IsPostLoading, PostI } from '../../types';
 import './Post.scss';
 import { ComponentPropsI, ComponentStateI } from './types';
 
@@ -44,7 +44,8 @@ class Header extends Component<ComponentPropsI, ComponentStateI> {
   }
 
   handleObserver = (entries: IntersectionObserverEntry[]) => {
-    if (this.props.isLoading) return;
+    console.log(this.props.isLoading);
+    if (this.props.isLoading !== IsPostLoading.NotLoading) return;
 
     if (entries[0]) {
       if (entries[0].isIntersecting) {
@@ -56,27 +57,13 @@ class Header extends Component<ComponentPropsI, ComponentStateI> {
     }
   };
 
-  onScroll = () => {
-    const bottom =
-      this.lastPostRef.current?.getBoundingClientRect().bottom || 0;
-    const isLastPostVisible =
-      bottom <= (window.innerHeight || document.documentElement.clientHeight);
-
-    if (isLastPostVisible) {
-      this.setState((prevState) => ({
-        currentPageNo: prevState.currentPageNo + 1,
-      }));
-      this.props.getPosts(this.state.currentPageNo);
-    }
-  };
-
   render() {
     const { posts, isLoading } = this.props;
+
     return (
       <div className="post-container">
         {posts.map((post: PostI, idx: number) => {
           if (idx === posts.length - 1) {
-            console.log('got the last one');
             return (
               <div key={post.id} ref={this.lastPostRef} className="unit-post">
                 <div className="post-title">
@@ -95,7 +82,7 @@ class Header extends Component<ComponentPropsI, ComponentStateI> {
             </div>
           );
         })}
-        {(isLoading || true) && <div className="loader" />}
+        {isLoading === IsPostLoading.Loading && <div className="loader" />}
       </div>
     );
   }

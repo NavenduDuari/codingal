@@ -1,4 +1,4 @@
-import { PostI } from '../../types';
+import { IsPostLoading, PostI } from '../../types';
 
 export enum ActionTypes {
   GET_POSTS = 'get-posts',
@@ -9,7 +9,7 @@ export enum ActionTypes {
 
 export interface MapStateToPropsI {
   posts: PostI[];
-  isLoading: boolean;
+  isLoading: IsPostLoading;
 }
 
 export interface MapDispatchToPropsI {
@@ -25,5 +25,5 @@ export interface ComponentStateI {}
 
 export interface StoreStateI {
   posts: PostI[];
-  isLoading: boolean;
+  isLoading: IsPostLoading;
 }

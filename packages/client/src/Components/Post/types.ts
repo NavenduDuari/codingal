@@ -1,8 +1,8 @@
-import { PostI } from '../../types';
+import { IsPostLoading, PostI } from '../../types';
 
 export interface ComponentPropsI {
   getPosts: (page: number) => void;
-  isLoading: boolean;
+  isLoading: IsPostLoading;
   clearPosts: () => void;
   posts: PostI[];
 }

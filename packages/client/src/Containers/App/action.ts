@@ -1,5 +1,5 @@
 import { ActionTypes } from './types';
-import { Action, PostI } from '../../types';
+import { Action, PostI, IsPostLoading } from '../../types';
 
 export const getPostsAction = (page: number): Action<ActionTypes> => ({
   type: ActionTypes.GET_POSTS,
@@ -21,7 +21,7 @@ export const clearPostsAction = (): Action<ActionTypes> => ({
 });
 
 export const changeIsLoadingAction = (
-  isLoading: boolean
+  isLoading: IsPostLoading
 ): Action<ActionTypes> => ({
   type: ActionTypes.CHANGE_IS_LOADING,
   payload: {

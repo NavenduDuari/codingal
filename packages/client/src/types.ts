@@ -11,3 +11,9 @@ export interface PostI {
 }
 
 export const POST_COUNT_PER_PAGE = 10;
+
+export enum IsPostLoading {
+  Loading = 'loading',
+  NotLoading = 'notLoading',
+  End = 'end',
+}

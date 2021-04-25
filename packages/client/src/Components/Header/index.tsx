@@ -32,8 +32,8 @@ class Header extends Component<ComponentPropsI, ComponentStateI> {
         countDownTime: prevState.countDownTime - 1,
       }));
 
-      if (this.state.countDownTime === 0 && this.counterId) {
-        clearTimeout(this.counterId);
+      if (this.state.countDownTime === 0) {
+        this.clearCountDownTimer();
       }
     }, 1000);
   }
@@ -43,6 +43,12 @@ class Header extends Component<ComponentPropsI, ComponentStateI> {
       clearInterval(this.counterId);
     }
   }
+
+  clearCountDownTimer = () => {
+    if (this.counterId) {
+      clearInterval(this.counterId);
+    }
+  };
 
   onToggleMenu = () => {
     this.setState((prevState) => ({ isMenuOpen: !prevState.isMenuOpen }));
@@ -58,7 +64,12 @@ class Header extends Component<ComponentPropsI, ComponentStateI> {
         ${formatTime(this.state.countDownTime % 60)}`}
       </div>
       <button
-        className="bg-orange text-white lg:inline-flex lg:w-auto px-3 py-2 rounded items-center justify-center"
+        className={`
+          end-btn bg-orange text-white 
+          lg:inline-flex lg:w-auto 
+          px-3 py-2 focus:outline-none
+          rounded items-center justify-center
+          `}
         type="button"
         onClick={() => this.setState({ showEndClassModal: true })}
       >
@@ -67,18 +78,11 @@ class Header extends Component<ComponentPropsI, ComponentStateI> {
     </div>
   );
 
-  isChecked = (
-    reasonType: 'end' | 'abort',
-    reason: ClassEndReason | ClassAbortReason
-  ) => {
-    if (reasonType === 'end') {
-      return this.state.classEndReason === reason;
-    }
-    if (reasonType === 'abort') {
-      return this.state.classAbortReason === reason;
-    }
-    return false;
-  };
+  isEndReasonChecked = (reason: ClassEndReason) =>
+    this.state.classEndReason === reason;
+
+  isAbortReasonChecked = (reason: ClassAbortReason) =>
+    this.state.classAbortReason === reason;
 
   onEndReasonChange = (e: React.MouseEvent, reason: ClassEndReason): void => {
     e.stopPropagation();
@@ -147,10 +151,7 @@ class Header extends Component<ComponentPropsI, ComponentStateI> {
         </div>
 
         {this.state.showEndClassModal && (
-          <div
-            className="end-class-modal-mask inset-0 absolute flex items-center justify-center"
-            onClick={this.closeClassEndModal}
-          >
+          <div className="end-class-modal-mask inset-0 absolute flex items-center justify-center">
             <div className="modal w-4/5 md:w-1/2 flex flex-col p-3 rounded">
               <div
                 className="modal-close-btn ml-auto text-gray-500"
@@ -170,7 +171,7 @@ class Header extends Component<ComponentPropsI, ComponentStateI> {
                 >
                   <input
                     type="radio"
-                    checked={this.isChecked('end', ClassEndReason.Completed)}
+                    checked={this.isEndReasonChecked(ClassEndReason.Completed)}
                     readOnly
                   />
                   <span className="ml-3">Class completed</span>
@@ -183,7 +184,7 @@ class Header extends Component<ComponentPropsI, ComponentStateI> {
                 >
                   <input
                     type="radio"
-                    checked={this.isChecked('end', ClassEndReason.Aborted)}
+                    checked={this.isEndReasonChecked(ClassEndReason.Aborted)}
                     readOnly
                   />
                   <span className="ml-3">Class aborted</span>
@@ -206,7 +207,7 @@ class Header extends Component<ComponentPropsI, ComponentStateI> {
                   >
                     <input
                       type="radio"
-                      checked={this.isChecked('abort', ClassAbortReason.R1)}
+                      checked={this.isAbortReasonChecked(ClassAbortReason.R1)}
                       readOnly
                     />
                     <span className="ml-3">
@@ -221,7 +222,7 @@ class Header extends Component<ComponentPropsI, ComponentStateI> {
                   >
                     <input
                       type="radio"
-                      checked={this.isChecked('abort', ClassAbortReason.R2)}
+                      checked={this.isAbortReasonChecked(ClassAbortReason.R2)}
                       readOnly
                     />
                     <span className="ml-3">
@@ -236,7 +237,7 @@ class Header extends Component<ComponentPropsI, ComponentStateI> {
                   >
                     <input
                       type="radio"
-                      checked={this.isChecked('abort', ClassAbortReason.R3)}
+                      checked={this.isAbortReasonChecked(ClassAbortReason.R3)}
                       readOnly
                     />
                     <span className="ml-3">Student got disconnected</span>
@@ -249,7 +250,7 @@ class Header extends Component<ComponentPropsI, ComponentStateI> {
                   >
                     <input
                       type="radio"
-                      checked={this.isChecked('abort', ClassAbortReason.R4)}
+                      checked={this.isAbortReasonChecked(ClassAbortReason.R4)}
                       readOnly
                     />
                     <span className="ml-3">I got disconnected</span>
@@ -262,49 +263,52 @@ class Header extends Component<ComponentPropsI, ComponentStateI> {
                   >
                     <input
                       type="radio"
-                      checked={this.isChecked('abort', ClassAbortReason.R5)}
+                      checked={this.isAbortReasonChecked(ClassAbortReason.R5)}
                       readOnly
                     />
                     <span className="ml-3">Other reason</span>
                   </div>
                   <div
-                    className={`my-3 ${
-                      this.isChecked('abort', ClassAbortReason.R5)
+                    className={`mt-3 ${
+                      this.isAbortReasonChecked(ClassAbortReason.R5)
                         ? 'h-20'
                         : 'h-0'
                     } transition-all duration-500 ease-in-out overflow-hidden`}
-                    onClick={(e: React.MouseEvent) => e.stopPropagation()}
                   >
                     <textarea
                       className="other-reason h-full w-full rounded border border-gray-300"
                       placeholder="Type here"
                     />
                   </div>
-                  <div>
-                    <button
-                      className={`
-                        bg-orange text-white lg:inline-flex 
-                        lg:w-auto px-3 py-2 rounded items-center 
-                        justify-center focus:outline-none
-                      `}
-                      type="button"
-                      onClick={this.closeClassEndModal}
-                    >
-                      End class
-                    </button>
+                </div>
 
-                    <button
-                      className={`
-                        bg-white text-black px-3 
-                        py-2 rounded items-center 
-                        justify-center focus:outline-none
-                      `}
-                      type="button"
-                      onClick={this.closeClassEndModal}
-                    >
-                      Cancel
-                    </button>
-                  </div>
+                <div className="mt-4">
+                  <button
+                    className={`
+                      end-btn bg-orange text-white lg:inline-flex 
+                      lg:w-auto px-3 py-2 rounded items-center 
+                      justify-center focus:outline-none
+                    `}
+                    type="button"
+                    onClick={(e: React.MouseEvent) => {
+                      this.clearCountDownTimer();
+                      this.closeClassEndModal(e);
+                    }}
+                  >
+                    End class
+                  </button>
+
+                  <button
+                    className={`
+                      bg-white text-black px-3 
+                      py-2 rounded items-center 
+                      justify-center focus:outline-none
+                    `}
+                    type="button"
+                    onClick={this.closeClassEndModal}
+                  >
+                    Cancel
+                  </button>
                 </div>
               </div>
             </div>

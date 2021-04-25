@@ -30,25 +30,23 @@ class App extends React.Component<PropsI, ComponentStateI> {
 
   render() {
     return (
-      <>
-        <Router>
-          <Switch>
-            <Route path="/header" render={() => <Header />} />
+      <Router>
+        <Switch>
+          <Route path="/header" render={() => <Header />} />
 
-            <Route
-              path="/posts"
-              render={() => (
-                <Post
-                  isLoading={this.props.isLoading}
-                  getPosts={this.props.getPosts}
-                  posts={this.props.posts}
-                  clearPosts={this.props.clearPosts}
-                />
-              )}
-            />
-          </Switch>
-        </Router>
-      </>
+          <Route
+            path="/posts"
+            render={() => (
+              <Post
+                isLoading={this.props.isLoading}
+                getPosts={this.props.getPosts}
+                posts={this.props.posts}
+                clearPosts={this.props.clearPosts}
+              />
+            )}
+          />
+        </Switch>
+      </Router>
     );
   }
 }
