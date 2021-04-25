@@ -39,9 +39,7 @@ class Header extends Component<ComponentPropsI, ComponentStateI> {
   }
 
   componentWillUnmount() {
-    if (this.counterId) {
-      clearInterval(this.counterId);
-    }
+    this.clearCountDownTimer();
   }
 
   clearCountDownTimer = () => {

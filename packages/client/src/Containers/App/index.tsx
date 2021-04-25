@@ -26,8 +26,6 @@ const mapDispatchToProps = (dispatch: any): MapDispatchToPropsI => ({
 });
 
 class App extends React.Component<PropsI, ComponentStateI> {
-  componentDidMount() {}
-
   render() {
     return (
       <Router>
