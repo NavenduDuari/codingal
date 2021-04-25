@@ -22,7 +22,6 @@ const appReducer = (state = INITIAL_STATE, action: Action<ActionTypes>) => {
       };
 
     case ActionTypes.CHANGE_IS_LOADING:
-      console.log(action);
       return {
         ...state,
         isLoading: action.payload?.isLoading,

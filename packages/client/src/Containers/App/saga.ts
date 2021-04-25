@@ -11,7 +11,6 @@ function getPosts() {
       const page = action.payload?.page;
       const url = `https://jsonplaceholder.typicode.com/posts?_page=${page}&_limit=${POST_COUNT_PER_PAGE}`;
       const response: AxiosResponse = yield call(axios.get, url);
-      console.log(response);
       const posts = response.data;
       if (response.status !== 200 || !posts.length) {
         throw new Error('Service request failed');

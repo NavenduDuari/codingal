@@ -47,6 +47,7 @@ class Header extends Component<ComponentPropsI, ComponentStateI> {
   clearCountDownTimer = () => {
     if (this.counterId) {
       clearInterval(this.counterId);
+      this.counterId = null;
     }
   };
 
@@ -55,26 +56,28 @@ class Header extends Component<ComponentPropsI, ComponentStateI> {
   };
 
   getClassStatus = () => (
-    <div className="menu-item w-full max-h-full flex items-center px-5">
-      <div className="lg:px-10 font-bold text-lg">
+    <div className="menu-item w-full max-h-full flex items-center px-5 text-xs md:text-base">
+      <div className="md:px-10 font-bold md:text-lg">
         Trial Lession [Grade 1-3]
       </div>
-      <div className="ml-auto px-10">
+      <div className="ml-auto px-5">
         {`${formatTime(Math.trunc(this.state.countDownTime / 60))} :
         ${formatTime(this.state.countDownTime % 60)}`}
       </div>
-      <button
-        className={`
+      {this.counterId && (
+        <button
+          className={`
           end-btn bg-orange text-white 
           lg:inline-flex lg:w-auto 
           px-3 py-2 focus:outline-none
           rounded items-center justify-center
           `}
-        type="button"
-        onClick={() => this.setState({ showEndClassModal: true })}
-      >
-        End class
-      </button>
+          type="button"
+          onClick={() => this.setState({ showEndClassModal: true })}
+        >
+          End class
+        </button>
+      )}
     </div>
   );
 
@@ -142,9 +145,9 @@ class Header extends Component<ComponentPropsI, ComponentStateI> {
         <div
           className={`
             navbar-menu-items-vertical ${
-              this.state.isMenuOpen ? 'max-h-full' : 'max-h-0'
+              this.state.isMenuOpen ? 'max-h-80' : 'max-h-0'
             } w-full flex items-center overflow-hidden 
-            mt-5 lg:hidden transition-all transform duration-300 ease-in-out
+            mt-5 lg:hidden transition-all duration-300 ease-in-out
           `}
         >
           {this.getClassStatus()}
@@ -152,14 +155,14 @@ class Header extends Component<ComponentPropsI, ComponentStateI> {
 
         {this.state.showEndClassModal && (
           <div className="end-class-modal-mask inset-0 absolute flex items-center justify-center">
-            <div className="modal w-4/5 md:w-1/2 flex flex-col p-3 rounded">
+            <div className="modal text-xs md:text-base w-6/7 md:w-1/2 flex flex-col p-3 rounded">
               <div
                 className="modal-close-btn ml-auto text-gray-500"
                 onClick={this.closeClassEndModal}
               >
                 <CrossIcon />
               </div>
-              <div className="heading text-xl font-black px-4">
+              <div className="heading text-base md:text-xl font-black px-4">
                 Select a reason to end class
               </div>
               <div className="reasons mt-2 flex flex-col p-3">
@@ -194,7 +197,7 @@ class Header extends Component<ComponentPropsI, ComponentStateI> {
                     sub-reasons ${
                       this.state.classEndReason === ClassEndReason.Aborted
                         ? 'max-h-80'
-                        : 'max-h-0 h-auto'
+                        : 'max-h-0'
                     } flex flex-col overflow-hidden ml-3 
                     transition-all duration-500 ease-in-out
                   `}

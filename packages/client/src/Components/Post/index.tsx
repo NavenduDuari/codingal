@@ -44,7 +44,6 @@ class Header extends Component<ComponentPropsI, ComponentStateI> {
   }
 
   handleObserver = (entries: IntersectionObserverEntry[]) => {
-    console.log(this.props.isLoading);
     if (this.props.isLoading !== IsPostLoading.NotLoading) return;
 
     if (entries[0]) {
