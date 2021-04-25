@@ -1,5 +1,12 @@
-export interface ComponentPropsI {}
+import { PostI } from '../../types';
+
+export interface ComponentPropsI {
+  getPosts: (page: number) => void;
+  isLoading: boolean;
+  clearPosts: () => void;
+  posts: PostI[];
+}
 
 export interface ComponentStateI {
-  test: string;
+  currentPageNo: number;
 }

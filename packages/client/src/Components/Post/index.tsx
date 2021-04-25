@@ -1,18 +1,103 @@
 import React, { Component } from 'react';
+import { PostI } from '../../types';
 import './Post.scss';
 import { ComponentPropsI, ComponentStateI } from './types';
 
 class Header extends Component<ComponentPropsI, ComponentStateI> {
+  lastPostRef: React.RefObject<HTMLDivElement>;
+
+  observer: IntersectionObserver;
+
   constructor(props: ComponentPropsI) {
     super(props);
     this.state = {
-      test: '',
+      currentPageNo: 1,
     };
+
+    this.lastPostRef = React.createRef<HTMLDivElement>();
+
+    const options = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 1.0,
+    };
+
+    this.observer = new IntersectionObserver(this.handleObserver, options);
   }
 
+  componentDidMount() {
+    this.props.getPosts(this.state.currentPageNo);
+    this.setState((prevState) => ({
+      currentPageNo: prevState.currentPageNo + 1,
+    }));
+  }
+
+  componentDidUpdate() {
+    if (this.lastPostRef.current) {
+      this.observer.disconnect();
+      this.observer.observe(this.lastPostRef.current as Element);
+    }
+  }
+
+  componentWillUnmount() {
+    this.props.clearPosts();
+  }
+
+  handleObserver = (entries: IntersectionObserverEntry[]) => {
+    if (this.props.isLoading) return;
+
+    if (entries[0]) {
+      if (entries[0].isIntersecting) {
+        this.setState((prevState) => ({
+          currentPageNo: prevState.currentPageNo + 1,
+        }));
+        this.props.getPosts(this.state.currentPageNo);
+      }
+    }
+  };
+
+  onScroll = () => {
+    const bottom =
+      this.lastPostRef.current?.getBoundingClientRect().bottom || 0;
+    const isLastPostVisible =
+      bottom <= (window.innerHeight || document.documentElement.clientHeight);
+
+    if (isLastPostVisible) {
+      this.setState((prevState) => ({
+        currentPageNo: prevState.currentPageNo + 1,
+      }));
+      this.props.getPosts(this.state.currentPageNo);
+    }
+  };
+
   render() {
-    console.log(this.state.test);
-    return <div>post component</div>;
+    const { posts, isLoading } = this.props;
+    return (
+      <div className="post-container">
+        {posts.map((post: PostI, idx: number) => {
+          if (idx === posts.length - 1) {
+            console.log('got the last one');
+            return (
+              <div key={post.id} ref={this.lastPostRef} className="unit-post">
+                <div className="post-title">
+                  {post.id}. {post.title}
+                </div>
+                <div className="post-body">{post.body}</div>
+              </div>
+            );
+          }
+          return (
+            <div key={post.id} className="unit-post">
+              <div className="post-title">
+                {post.id}. {post.title}
+              </div>
+              <div className="post-body">{post.body}</div>
+            </div>
+          );
+        })}
+        {(isLoading || true) && <div className="loader" />}
+      </div>
+    );
   }
 }
 

@@ -8,6 +8,8 @@ import {
   ComponentStateI,
 } from './types';
 
+const formatTime = (time: number): string => `${time < 10 ? '0' : ''}${time}`;
+
 class Header extends Component<ComponentPropsI, ComponentStateI> {
   counterId: NodeJS.Timeout | null;
 
@@ -52,8 +54,8 @@ class Header extends Component<ComponentPropsI, ComponentStateI> {
         Trial Lession [Grade 1-3]
       </div>
       <div className="ml-auto px-10">
-        {Math.trunc(this.state.countDownTime / 60)}:
-        {this.state.countDownTime % 60}
+        {`${formatTime(Math.trunc(this.state.countDownTime / 60))} :
+        ${formatTime(this.state.countDownTime % 60)}`}
       </div>
       <button
         className="bg-orange text-white lg:inline-flex lg:w-auto px-3 py-2 rounded items-center justify-center"
@@ -103,7 +105,11 @@ class Header extends Component<ComponentPropsI, ComponentStateI> {
           <a className="ml-5 inline-flex items-center">
             <img
               src="https://cdn.codingal.com/images/logos/logos-main/favicon-90x90.png"
-              className="h-8 cursor-pointer"
+              className="h-8 cursor-pointer hidden lg:block"
+            />
+            <img
+              src="https://cdn.codingal.com/images/logos/logos-main/logo-with-text.svg"
+              className="h-8 cursor-pointer lg:hidden"
             />
           </a>
           <button
@@ -134,7 +140,7 @@ class Header extends Component<ComponentPropsI, ComponentStateI> {
             navbar-menu-items-vertical ${
               this.state.isMenuOpen ? 'max-h-full' : 'max-h-0'
             } w-full flex items-center overflow-hidden 
-            mt-5 lg:hidden transition-all transform duration-500 ease-in-out
+            mt-5 lg:hidden transition-all transform duration-300 ease-in-out
           `}
         >
           {this.getClassStatus()}
