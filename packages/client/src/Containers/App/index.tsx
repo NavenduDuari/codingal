@@ -1,3 +1,7 @@
+/**
+ * @fileinfo
+ * The main task of the file is to handle routing. It also perform some initial XHR requests
+ */
 import React from 'react';
 import { connect } from 'react-redux';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
@@ -7,10 +11,12 @@ import {
   ComponentStateI,
   MapStateToPropsI,
   MapDispatchToPropsI,
+  ActionTypes,
 } from './types';
 import Header from '../../Components/Header/index';
 import Post from '../../Components/Post/index';
 import { clearPostsAction, getPostsAction } from './action';
+import { Action } from '../../types';
 
 const mapStateToProps = (globalState: GlobalStateI): MapStateToPropsI => {
   const state = globalState.appReducer;
@@ -20,12 +26,18 @@ const mapStateToProps = (globalState: GlobalStateI): MapStateToPropsI => {
   };
 };
 
-const mapDispatchToProps = (dispatch: any): MapDispatchToPropsI => ({
+const mapDispatchToProps = (
+  dispatch: (action: Action<ActionTypes>) => void
+): MapDispatchToPropsI => ({
+  // getPosts: fetch posts from server and pass the response to store
   getPosts: (page: number) => dispatch(getPostsAction(page)),
+  // clearPosts: clear all the posts stored in appReducer store
   clearPosts: () => dispatch(clearPostsAction()),
 });
 
 class App extends React.Component<PropsI, ComponentStateI> {
+  componentDidMount() {}
+
   render() {
     return (
       <Router>

@@ -1,3 +1,7 @@
+/**
+ * @fileinfo
+ * The file contains all the actions that are dispatched by App/index.jsx
+ */
 import { ActionTypes } from './types';
 import { Action, PostI, IsPostLoading } from '../../types';
 

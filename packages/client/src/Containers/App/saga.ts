@@ -1,3 +1,10 @@
+/**
+ * @fileinfo
+ * This file perform async XHR service calls & passes the response to the reducer to update store
+ *
+ * [TODO]
+ * Write a RequestManager to perform axios calls effectively
+ */
 import { takeLatest, put, call } from 'redux-saga/effects';
 import axios, { AxiosResponse } from 'axios';
 import { ActionTypes } from './types';

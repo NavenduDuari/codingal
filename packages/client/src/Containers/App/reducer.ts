@@ -1,7 +1,11 @@
+/**
+ * @fileinfo
+ * This contains and modifies the AppReducer store
+ */
 import { Action, IsPostLoading } from '../../types';
 import { ActionTypes, StoreStateI } from './types';
 
-const INITIAL_STATE: StoreStateI = {
+export const INITIAL_STATE: StoreStateI = {
   posts: [],
   isLoading: IsPostLoading.NotLoading,
 };
