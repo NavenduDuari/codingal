@@ -27,9 +27,6 @@ class Header extends Component<ComponentPropsI, ComponentStateI> {
 
   componentDidMount() {
     this.props.getPosts(this.state.currentPageNo);
-    this.setState((prevState) => ({
-      currentPageNo: prevState.currentPageNo + 1,
-    }));
   }
 
   componentDidUpdate() {
